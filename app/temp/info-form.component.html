@@ -1,0 +1,140 @@
+
+<div class="container">
+
+  <div [hidden]="create || detailPage">
+    <div class="nav">
+      <div class="container-fluid">
+        <div>
+          <ul class="nav navbar-nav">
+            <li>Qinhuan</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2">
+        <div class="text-center" style="background-color: lightblue;">
+          <span class="col-sm-offset-6" (click)="goDetail()" ngFor="let eye of eyes">{{eye.date}} {{eye.score}}</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <span>Total expenses:</span>
+      <span>1000</span>
+      <span>Mood score:</span>
+      <span>80</span>
+    </div>
+    <div>
+      <button (click)="showCreatePage()">Create</button>
+    </div>
+  </div>
+
+
+
+
+
+
+
+  <div [hidden]="!create">
+    <div class="nav">
+      <div class="container-fluid">
+        <div>
+          <ul class="nav navbar-nav">
+            <li><button (click)="createBackToListPage()">Back</button><span>Qinhuan</span></li>
+            <li></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <form class="form-horizontal" style="margin-top: 30px">
+      <div>
+        EyE on :
+      </div>
+      <div class="form-group">
+        <label for="date" class="control-label col-md-3">Date</label>
+        <div class="col-md-8">
+        <input class="form-control" type="text" id="date" name="date" placeholder="Please input date Month/Date/Year" [(ngModel)]="eye.date">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="spend" class="control-label col-md-3">Expenditure</label>
+        <div class="col-md-8">
+          <input class="form-control" type="text" id="spend" name="spend" placeholder="Please input your today's expense" [(ngModel)]="eye.spend">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="content" class="control-label col-md-3">Your Today</label>
+        <div class="col-md-8">
+          <textarea class="form-control" id="content" name="content" cols="30" rows="10" placeholder="Please record what you have done today briefly !" [(ngModel)]="eye.content"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-md-3" for="score">Ended with</label>
+        <div class="col-md-8">
+          <select class="form-control"  id="score" required [(ngModel)]="eye.score" name="score">
+            <option *ngFor="let s of scores" [value]="s">{{s}}</option>
+           <!--  <option value="10">10  Angry</option>
+            <option value="20">20  Sorrowful</option>
+            <option value="30">30  Upset</option>
+            <option value="40">40  Anxious</option>
+            <option value="50">50  Lost</option>
+            <option value="60">60  So-so</option>
+            <option value="70">70  Contented</option>
+            <option value="80">80  Happy</option>
+            <option value="90">90  Excited</option>
+            <option value="100">100 Ecstatic</option>      -->       
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-3 col-md-offset-3">
+          <a class="btn btn-success" (click)="submit()" href="#!/add">Submit</a>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+
+
+
+
+
+
+
+
+  
+
+  <div [hidden]="!detailPage">
+    <div class="nav">
+      <div class="container-fluid">
+        <div>
+          <ul class="nav navbar-nav">
+            <li><button (click)="detailBackToListPage()">Back</button><span>Qinhuan</span></li>
+            <li></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <form class="form-horizontal" style="margin-top: 30px">
+      <div class="form-group">
+        <span class="control-label col-md-3">03.31.2017</span>
+      </div>
+      <div class="form-group">
+        <span class="control-label col-md-3">Expenditure:100</span>
+      </div>
+      <div class="form-group">
+        <span class="control-label col-md-3">Your Today: I learn something new</span>
+      </div>
+      <div class="form-group">
+        <span class="control-label col-md-3">Ended with : 80</span>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+
+
