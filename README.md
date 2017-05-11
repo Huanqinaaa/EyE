@@ -5,6 +5,7 @@ npm install
 
 ### Second step:
 ```
+npm start
 node server.js
 ```
 
