@@ -25,16 +25,17 @@ function setInfo(data,callback){
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname,'/')));
-app.get('/',function (req,res){ // get a list
+/*app.get('/add',function (req,res){ // get a list
     fs.createReadStream('./index.html').pipe(res); 
-    console.log("I am server");
-});  
+}); */
 
-/*app.get('/eye',function (req,res){ 
+app.get('/list',function (req,res){ 
     getInfo(function (data){
+        
         res.send(data);
+        console.log(data);
     });
-});*/
+});
 
 app.get('/eye/:id',function (req,res){ // get one 
     var id= req.params.id;
@@ -48,13 +49,13 @@ app.get('/eye/:id',function (req,res){ // get one
     })
 });
 
-app.post('/add',function (req,res){ // save the data what you input
+app.post('/list',function (req,res){ // save the data that you input
     var eye = req.body;
     getInfo(function (data){
         eye.id = data.length ? data[data.length - 1].id + 1 : 1;
         data.push(eye);
         setInfo(data,function (){
-            res.send(eye);
+            res.send(data);
         })
     })
 });

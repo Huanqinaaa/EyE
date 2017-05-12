@@ -16,11 +16,15 @@ var http_2 = require("@angular/http");
 require("rxjs/add/operator/map");
 var InfoFormComponent = (function () {
     function InfoFormComponent(http) {
+        var _this = this;
         this.http = http;
         this.scores = ['0   Breakdown', '10  Angry', "20  Sorrowful", "30  Upset", "40  Anxious", "50  Lost", "60  So-so", "70  Contented", "80  Happy", "90  Excited", "100 Ecstatic"];
         this.create = false;
         this.detailPage = false;
         this.eye = new info_1.Info();
+        http.get("/list")
+            .map(function (res) { return res.json(); })
+            .subscribe(function (v) { console.log("data"); _this.eyes = v; });
     }
     InfoFormComponent.prototype.showCreatePage = function () {
         this.create = true;
@@ -34,7 +38,7 @@ var InfoFormComponent = (function () {
         var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
         var options = new http_2.RequestOptions({ headers: headers });
         return this.http
-            .post('/add', body, options)
+            .post('/list', body, options)
             .map(function (res) { return res.json(); })
             .subscribe(function (data) { console.log(data); }, function (err) { console.log(err); }, function () { console.log('complete'); _this.create = false; });
     };

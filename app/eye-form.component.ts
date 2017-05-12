@@ -13,7 +13,8 @@ import 'rxjs/add/operator/map';
   templateUrl: './temp/info-form.component.html'
 })
 
-export class InfoFormComponent {
+export class InfoFormComponent{
+ 
   scores = ['0   Breakdown', '10  Angry',"20  Sorrowful","30  Upset","40  Anxious","50  Lost","60  So-so","70  Contented","80  Happy","90  Excited","100 Ecstatic"];
 
   create = false;
@@ -25,22 +26,29 @@ export class InfoFormComponent {
   createBackToListPage(){
       this.create = false;
   }
-  constructor(private http: Http){ }
 
   public eyes : Info[];
   eye:Info = new Info();
+
+  constructor(private http: Http){ 
+     
+      http.get("/list")
+          .map(res => res.json())
+          .subscribe(
+            v => { console.log("data");this.eyes=v }
+          );
+  }
 
   submit(){
 
       let body = JSON.stringify(this.eye);
 
-        
       let headers = new Headers({'Content-Type': 'application/json'});
 
       let options = new RequestOptions({ headers: headers });
 
       return this.http
-      .post('/add', body, options)
+      .post('/list', body, options)
       .map(res => res.json())
       .subscribe(
         data => { console.log(data); },
@@ -57,4 +65,7 @@ export class InfoFormComponent {
   detailBackToListPage(){
       this.detailPage = false;
   }
+
+  
+
 }
