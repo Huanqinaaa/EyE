@@ -22,9 +22,10 @@ var InfoFormComponent = (function () {
         this.create = false;
         this.detailPage = false;
         this.eye = new info_1.Info();
+        this.detail = new info_1.Info();
         http.get("/list")
             .map(function (res) { return res.json(); })
-            .subscribe(function (v) { console.log("data"); _this.eyes = v; });
+            .subscribe(function (v) { _this.eyes = v; });
     }
     InfoFormComponent.prototype.showCreatePage = function () {
         this.create = true;
@@ -40,10 +41,19 @@ var InfoFormComponent = (function () {
         return this.http
             .post('/list', body, options)
             .map(function (res) { return res.json(); })
-            .subscribe(function (data) { console.log(data); }, function (err) { console.log(err); }, function () { console.log('complete'); _this.create = false; });
+            .subscribe(function (data) { console.log(data[data.length - 1]); _this.create = false; }, function (err) { console.log(err); }, function () {
+            _this.http.get("/list")
+                .map(function (res) { return res.json(); })
+                .subscribe(function (v) { _this.eyes = v; });
+        });
     };
-    InfoFormComponent.prototype.goDetail = function () {
+    InfoFormComponent.prototype.goDetail = function (id) {
+        var _this = this;
         this.detailPage = true;
+        return this.http
+            .get("/detail/" + id)
+            .map(function (res) { return res.json(); })
+            .subscribe(function (v) { _this.detail = v; });
     };
     InfoFormComponent.prototype.detailBackToListPage = function () {
         this.detailPage = false;

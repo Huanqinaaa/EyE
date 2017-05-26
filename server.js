@@ -31,14 +31,13 @@ app.use(express.static(path.join(__dirname,'/')));
 
 app.get('/list',function (req,res){ 
     getInfo(function (data){
-        
         res.send(data);
-        console.log(data);
     });
 });
 
-app.get('/eye/:id',function (req,res){ // get one 
+app.get('/detail/:id',function (req,res){ // get one 
     var id= req.params.id;
+    console.log(id);
     getInfo(function (data){
         var eye = data.find(function (item){
             return item.id == id;
@@ -51,13 +50,23 @@ app.get('/eye/:id',function (req,res){ // get one
 
 app.post('/list',function (req,res){ // save the data that you input
     var eye = req.body;
+    var total = 0;
+    eye.spend = Number(eye.spend);
     getInfo(function (data){
         eye.id = data.length ? data[data.length - 1].id + 1 : 1;
         data.push(eye);
+        data.forEach(function(item, index){
+            total = total + item.spend;
+        });
+        data.push(total);
+        console.log(total);
         setInfo(data,function (){
             res.send(data);
         })
-    })
+    });
+
+
+   
 });
 
 app.listen(8004,function(){

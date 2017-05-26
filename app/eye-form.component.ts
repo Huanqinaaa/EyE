@@ -29,13 +29,14 @@ export class InfoFormComponent{
 
   public eyes : Info[];
   eye:Info = new Info();
+  detail:Info = new Info();
 
   constructor(private http: Http){ 
      
       http.get("/list")
           .map(res => res.json())
           .subscribe(
-            v => { console.log("data");this.eyes=v }
+            v => { this.eyes=v }
           );
   }
 
@@ -51,15 +52,26 @@ export class InfoFormComponent{
       .post('/list', body, options)
       .map(res => res.json())
       .subscribe(
-        data => { console.log(data); },
+        data => { console.log(data[data.length - 1]);this.create = false},
         err => { console.log(err); },
-        () => { console.log('complete'); this.create = false;}
+        () => { this.http.get("/list")
+                .map(res => res.json())
+                .subscribe(
+                   v => { this.eyes=v }
+                );
+              }
       );
      
   }
 
-  goDetail(){
-    this.detailPage = true;
+  goDetail(id){
+      this.detailPage = true;
+      return this.http
+          .get("/detail/" + id)
+          .map(res => res.json())
+          .subscribe(
+            v => { this.detail=v }
+          );
   }
 
   detailBackToListPage(){
@@ -67,5 +79,4 @@ export class InfoFormComponent{
   }
 
   
-
 }

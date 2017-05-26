@@ -12,15 +12,15 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-2">
-        <div class="text-center" style="background-color: lightblue;">
-          <span class="col-sm-offset-6" (click)="goDetail()" *ngFor="let eye of eyes">{{eye.date}} {{eye.score}}</span>
+      <div class="col-sm-2 col-md-offset-3">
+        <div class="text-center" style="background-color: lightyellow;"  *ngFor="let eye of eyes">
+          <a class="col-sm-offset-6" (click)="goDetail(eye.id)" href="#!/detail">{{eye.date}} {{eye.score}}</a>
         </div>
       </div>
     </div>
     <div>
       <span>Total expenses:</span>
-      <span>1000</span>
+      <span>eyes[eyes.length]</span>
       <span>Mood score:</span>
       <span>80</span>
     </div>
@@ -40,7 +40,7 @@
       <div class="container-fluid">
         <div>
           <ul class="nav navbar-nav">
-            <li><button (click)="createBackToListPage()">Back</button><span>Qinhuan</span></li>
+            <li><a (click)="createBackToListPage()" href="#!/list">Back</a><span>Qinhuan</span></li>
             <li></li>
           </ul>
         </div>
@@ -74,16 +74,6 @@
         <div class="col-md-8">
           <select class="form-control"  id="score" required [(ngModel)]="eye.score" name="score">
             <option *ngFor="let s of scores" [value]="s">{{s}}</option>
-           <!--  <option value="10">10  Angry</option>
-            <option value="20">20  Sorrowful</option>
-            <option value="30">30  Upset</option>
-            <option value="40">40  Anxious</option>
-            <option value="50">50  Lost</option>
-            <option value="60">60  So-so</option>
-            <option value="70">70  Contented</option>
-            <option value="80">80  Happy</option>
-            <option value="90">90  Excited</option>
-            <option value="100">100 Ecstatic</option>      -->       
           </select>
         </div>
       </div>
@@ -111,8 +101,7 @@
       <div class="container-fluid">
         <div>
           <ul class="nav navbar-nav">
-            <li><button (click)="detailBackToListPage()">Back</button><span>Qinhuan</span></li>
-            <li></li>
+            <li><a (click)="detailBackToListPage()" href="#!/list">Back</a><span>Qinhuan</span></li>
           </ul>
         </div>
       </div>
@@ -120,16 +109,19 @@
 
     <form class="form-horizontal" style="margin-top: 30px">
       <div class="form-group">
-        <span class="control-label col-md-3">03.31.2017</span>
+        <span class="control-label col-md-3">{{detail.date}}</span>
       </div>
       <div class="form-group">
-        <span class="control-label col-md-3">Expenditure:100</span>
+        <span class="control-label col-md-3">Expenditure:</span>
+        <span class="control-label col-md-3">{{detail.spend}}</span>
       </div>
       <div class="form-group">
-        <span class="control-label col-md-3">Your Today: I learn something new</span>
+        <span class="control-label col-md-3">Your Today:</span>
+        <span class="control-label col-md-3">{{detail.content}}</span>
       </div>
       <div class="form-group">
-        <span class="control-label col-md-3">Ended with : 80</span>
+        <span class="control-label col-md-3">Ended with:</span>
+        <span class="control-label col-md-3">{{detail.score}}</span>
       </div>
     </form>
   </div>
