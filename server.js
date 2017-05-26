@@ -55,10 +55,9 @@ app.post('/list',function (req,res){ // save the data that you input
     getInfo(function (data){
         eye.id = data.length ? data[data.length - 1].id + 1 : 1;
         data.push(eye);
-        data.forEach(function(item, index){
+      /*  data.forEach(function(item, index){
             total = total + item.spend;
-        });
-        data.push(total);
+        });*/
         console.log(total);
         setInfo(data,function (){
             res.send(data);
