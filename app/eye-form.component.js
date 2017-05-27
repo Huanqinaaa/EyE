@@ -18,14 +18,32 @@ var InfoFormComponent = (function () {
     function InfoFormComponent(http) {
         var _this = this;
         this.http = http;
-        this.scores = ['0   Breakdown', '10  Angry', "20  Sorrowful", "30  Upset", "40  Anxious", "50  Lost", "60  So-so", "70  Contented", "80  Happy", "90  Excited", "100 Ecstatic"];
+        this.scores = [
+            '0   Breakdown',
+            '10  Angry',
+            "20  Sorrowful",
+            "30  Upset",
+            "40  Anxious",
+            "50  Lost",
+            "60  So-so",
+            "70  Contented",
+            "80  Happy",
+            "90  Excited",
+            "100 Ecstatic"
+        ];
         this.create = false;
         this.detailPage = false;
         this.eye = new info_1.Info();
         this.detail = new info_1.Info();
+        this.total = 0;
+        this.average = 0;
         http.get("/list")
             .map(function (res) { return res.json(); })
-            .subscribe(function (v) { _this.eyes = v; });
+            .subscribe(function (v) {
+            _this.eyes = v.data;
+            _this.total = v.total;
+            _this.average = v.average;
+        });
     }
     InfoFormComponent.prototype.showCreatePage = function () {
         this.create = true;
@@ -41,10 +59,15 @@ var InfoFormComponent = (function () {
         return this.http
             .post('/list', body, options)
             .map(function (res) { return res.json(); })
-            .subscribe(function (data) { console.log(data[data.length - 1]); _this.create = false; }, function (err) { console.log(err); }, function () {
+            .subscribe(function (data) { console.log(data); _this.create = false; }, function (err) { console.log(err); }, function () {
             _this.http.get("/list")
                 .map(function (res) { return res.json(); })
-                .subscribe(function (v) { _this.eyes = v; });
+                .subscribe(function (v) {
+                console.log(v);
+                _this.eyes = v.data;
+                _this.total = v.total;
+                _this.average = v.average;
+            });
         });
     };
     InfoFormComponent.prototype.goDetail = function (id) {

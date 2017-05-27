@@ -14,10 +14,22 @@ import 'rxjs/add/operator/map';
 })
 
 export class InfoFormComponent{
- 
-  scores = ['0   Breakdown', '10  Angry',"20  Sorrowful","30  Upset","40  Anxious","50  Lost","60  So-so","70  Contented","80  Happy","90  Excited","100 Ecstatic"];
+  scores = [
+      '0   Breakdown',
+      '10  Angry',
+      "20  Sorrowful",
+      "30  Upset",
+      "40  Anxious",
+      "50  Lost",
+      "60  So-so",
+      "70  Contented",
+      "80  Happy",
+      "90  Excited",
+      "100 Ecstatic"
+  ];
 
   create = false;
+
   detailPage = false;
     showCreatePage(){
       this.create = true;
@@ -30,34 +42,42 @@ export class InfoFormComponent{
   public eyes : Info[];
   eye:Info = new Info();
   detail:Info = new Info();
+  total = 0;
+  average = 0;
 
   constructor(private http: Http){ 
-     
       http.get("/list")
           .map(res => res.json())
           .subscribe(
-            v => { this.eyes=v }
+            v => { 
+              this.eyes=v.data;
+              this.total=v.total;
+              this.average=v.average
+            }
           );
   }
 
   submit(){
 
       let body = JSON.stringify(this.eye);
-
       let headers = new Headers({'Content-Type': 'application/json'});
-
       let options = new RequestOptions({ headers: headers });
 
       return this.http
       .post('/list', body, options)
       .map(res => res.json())
       .subscribe(
-        data => { console.log(data[data.length - 1]);this.create = false},
+        data => { console.log(data);this.create = false},
         err => { console.log(err); },
         () => { this.http.get("/list")
                 .map(res => res.json())
                 .subscribe(
-                   v => { this.eyes=v }
+                   v => { 
+                      console.log(v);
+                      this.eyes=v.data;
+                      this.total=v.total;
+                      this.average=v.average
+                   }
                 );
               }
       );

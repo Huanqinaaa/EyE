@@ -7,6 +7,7 @@ var app = express();
 function getInfo(callback){ 
     fs.readFile('./eye.json','utf8',function (err,data){
         var eyes = [];
+
         if(err){
             callback(eyes);
         }else{
@@ -31,8 +32,21 @@ app.use(express.static(path.join(__dirname,'/')));
 
 app.get('/list',function (req,res){ 
     getInfo(function (data){
-        res.send(data);
+        var total = 0,score = 0,average = 0;
+        var length = data.length;
+        data.forEach(function(item, index){
+                total = total + item.spend;
+                score = score + parseFloat(item.score);
+                average = Math.round(score/length);
+            });
+        var result = {
+            average:average,
+            total: total,
+            data : data
+        };
+        res.send(result);
     });
+
 });
 
 app.get('/detail/:id',function (req,res){ // get one 
@@ -50,22 +64,30 @@ app.get('/detail/:id',function (req,res){ // get one
 
 app.post('/list',function (req,res){ // save the data that you input
     var eye = req.body;
-    var total = 0;
+    var total = 0, average = 0,score = 0;
+    var result = {};
     eye.spend = Number(eye.spend);
     getInfo(function (data){
         eye.id = data.length ? data[data.length - 1].id + 1 : 1;
         data.push(eye);
-      /*  data.forEach(function(item, index){
+        var length = data.length;
+        data.forEach(function(item, index){
             total = total + item.spend;
-        });*/
-        console.log(total);
+            score = score + parseFloat(item.score);
+            average = Math.round(score/length);
+        });
+
+        result = {
+            average:average,
+            total : total,
+            data : data
+        };
+
         setInfo(data,function (){
-            res.send(data);
+            res.send(result);
         })
     });
 
-
-   
 });
 
 app.listen(8004,function(){
